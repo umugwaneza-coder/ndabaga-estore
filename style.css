@@ -1,0 +1,232 @@
+/* ── GENERAL RESET ── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  color: #333;
+}
+
+/* ── NAVBAR ── */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ff6600;
+  padding: 16px 40px;
+}
+
+nav span {
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+}
+
+nav ul a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+nav ul a:hover {
+  text-decoration: underline;
+}
+
+/* ── HERO ── */
+#hero {
+  background-color: #fff4ec;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+#hero h1 {
+  font-size: 42px;
+  color: #ff6600;
+  margin-bottom: 16px;
+}
+
+#hero p {
+  font-size: 18px;
+  margin-bottom: 32px;
+  color: #555;
+}
+
+#hero a {
+  background-color: #ff6600;
+  color: white;
+  padding: 14px 36px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+#hero a:hover {
+  background-color: #e05500;
+}
+
+/* ── SERVICES ── */
+#services {
+  padding: 80px 40px;
+  text-align: center;
+  background-color: #ffffff;
+}
+
+#services h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+  color: #ff6600;
+}
+
+#services > div {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+#services > div > div {
+  background-color: #fff4ec;
+  border-radius: 12px;
+  padding: 32px 24px;
+  width: 280px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+#services h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #ff6600;
+}
+
+#services p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* ── CONTACT ── */
+#contact {
+  background-color: #fff4ec;
+  padding: 80px 40px;
+  text-align: center;
+}
+
+#contact h2 {
+  font-size: 32px;
+  color: #ff6600;
+  margin-bottom: 12px;
+}
+
+#contact > p {
+  font-size: 16px;
+  margin-bottom: 32px;
+  color: #444;
+}
+
+#contact form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+#contact input,
+#contact textarea {
+  width: 100%;
+  max-width: 500px;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+}
+
+#contact input:focus,
+#contact textarea:focus {
+  border-color: #ff6600;
+}
+
+#contact textarea {
+  height: 140px;
+  resize: vertical;
+}
+
+#contact button {
+  background-color: #ff6600;
+  color: white;
+  padding: 14px 40px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#contact button:hover {
+  background-color: #e05500;
+}
+
+/* ── FOOTER ── */
+footer {
+  background-color: #ff6600;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+}
+/* ── MOBILE RESPONSIVE ── */
+@media (max-width: 768px) {
+
+  nav {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+    padding: 16px 20px;
+  }
+
+  #hero {
+    padding: 60px 20px;
+  }
+
+  #hero h1 {
+    font-size: 28px;
+  }
+
+  #hero p {
+    font-size: 16px;
+  }
+
+  #hero a {
+    font-size: 15px;
+    padding: 12px 28px;
+  }
+
+  #services {
+    padding: 60px 20px;
+  }
+
+  #services > div > div {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  #contact {
+    padding: 60px 20px;
+  }
+
+  #contact input,
+  #contact textarea {
+    width: 100%;
+  }
+
+}

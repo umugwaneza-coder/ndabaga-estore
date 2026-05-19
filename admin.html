@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ndabaga E-Store — Admin Panel</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+      body { background-color: #f5f5f5; color: #333; }
+
+      /* ── LOGIN ── */
+      #login-screen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        gap: 16px;
+      }
+      #login-screen h2 { color: #ff6600; font-size: 26px; }
+      #login-screen input {
+        padding: 12px 16px;
+        width: 300px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+      }
+      #login-screen button {
+        background-color: #ff6600;
+        color: white;
+        padding: 12px 40px;
+        border: none;
+        border-radius: 30px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 300px;
+      }
+      #login-screen button:hover { background-color: #e05500; }
+      #login-error { color: red; font-size: 14px; }
+
+      /* ── ADMIN PANEL ── */
+      #admin-panel { display: none; }
+
+      header {
+        background-color: #ff6600;
+        color: white;
+        padding: 16px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      header h1 { font-size: 22px; }
+      header button {
+        background-color: white;
+        color: #ff6600;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+
+      /* ── ADD PRODUCT FORM ── */
+      .form-box {
+        background: white;
+        border-radius: 12px;
+        padding: 32px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        margin-bottom: 40px;
+      }
+      .form-box h2 { color: #ff6600; margin-bottom: 24px; font-size: 22px; }
+      .form-group { display: flex; flex-direction: column; gap: 12px; }
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        padding: 12px 16px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+        outline: none;
+      }
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus { border-color: #ff6600; }
+      .form-group textarea { height: 100px; resize: vertical; }
+
+      .image-preview {
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        display: none;
+        margin-top: 8px;
+      }
+
+      .add-btn {
+        margin-top: 16px;
+        background-color: #ff6600;
+        color: white;
+        padding: 12px 40px;
+        border: none;
+        border-radius: 30px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .add-btn:hover { background-color: #e05500; }
+      .success-msg { color: green; margin-top: 12px; font-size: 14px; display: none; }
+
+      /* ── PRODUCTS LIST ── */
+      .products-box {
+        background: white;
+        border-radius: 12px;
+        padding: 32px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      }
+      .products-box h2 { color: #ff6600; margin-bottom: 24px; font-size: 22px; }
+
+      .admin-product {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .admin-product img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .admin-product-info { flex: 1; }
+      .admin-product-info h3 { font-size: 16px; color: #333; }
+      .admin-product-info p { font-size: 14px; color: #888; }
+      .admin-product-info span { font-size: 15px; font-weight: bold; color: #ff6600; }
+
+      .delete-btn {
+        background-color: #ff4444;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: bold;
+      }
+      .delete-btn:hover { background-color: #cc0000; }
+
+      .imgur-hint {
+        background-color: #fff4ec;
+        border-left: 4px solid #ff6600;
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 14px;
+        color: #555;
+        line-height: 1.6;
+      }
+      .imgur-hint a { color: #ff6600; }
+    </style>
+  </head>
+  <body>
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen">
+      <h2>🔐 Admin Login</h2>
+      <input type="password" id="admin-password" placeholder="Enter Admin Password" />
+      <button onclick="login()">Login</button>
+      <p id="login-error"></p>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="admin-panel">
+
+      <header>
+        <h1>Ndabaga E-Store — Admin Panel</h1>
+        <button onclick="logout()">Logout</button>
+      </header>
+
+      <div class="container">
+
+        <!-- ADD PRODUCT -->
+        <div class="form-box">
+          <h2>➕ Add New Product</h2>
+
+          <div class="imgur-hint">
+            💡 <strong>How to get an image URL:</strong> Go to
+            <a href="https://imgur.com" target="_blank">imgur.com</a>
+            → New post → Upload your image → Right-click the image
+            → Copy image address → Paste it below.
+          </div>
+
+          <br />
+
+          <div class="form-group">
+            <input type="text" id="prod-name" placeholder="Product Name" />
+            <input type="number" id="prod-price" placeholder="Price (RWF)" />
+            <select id="prod-category">
+              <option value="">Select Category</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Groceries">Groceries</option>
+              <option value="Clothing">Clothing</option>
+              <option value="Home appliances">Household</option>
+              <option value="Other">Other</option>
+            </select>
+            <textarea id="prod-description" placeholder="Product Description"></textarea>
+            <input type="url" id="prod-image-url" placeholder="Paste image URL here" oninput="previewImageUrl()" />
+            <img id="image-preview" class="image-preview" />
+          </div>
+          <button class="add-btn" onclick="addProduct()">Add Product</button>
+          <p class="success-msg" id="success-msg">✅ Product added successfully!</p>
+        </div>
+
+        <!-- PRODUCTS LIST -->
+        <div class="products-box">
+          <h2>📦 All Products</h2>
+          <div id="admin-products-list">Loading...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      // ── CONFIG ──
+      const SUPABASE_URL = 'https://ozeqcmisazkczgzzxsam.supabase.co';
+      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96ZXFjbWlzYXprY3pnenp4c2FtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMDkyMTksImV4cCI6MjA5NDc4NTIxOX0.qumZCa8A1FPafMY7r_aX03CrKh_93SBrktAJPGBzx5s';
+      const ADMIN_PASSWORD = 'umuhirwa@01';
+
+      const { createClient } = supabase;
+      const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      // ── LOGIN ──
+      function login() {
+        const pass = document.getElementById('admin-password').value;
+        if (pass === ADMIN_PASSWORD) {
+          document.getElementById('login-screen').style.display = 'none';
+          document.getElementById('admin-panel').style.display = 'block';
+          loadAdminProducts();
+        } else {
+          document.getElementById('login-error').textContent = 'Wrong password. Try again.';
+        }
+      }
+
+      function logout() {
+        document.getElementById('login-screen').style.display = 'flex';
+        document.getElementById('admin-panel').style.display = 'none';
+        document.getElementById('admin-password').value = '';
+      }
+
+      // ── IMAGE PREVIEW ──
+      function previewImageUrl() {
+        const url = document.getElementById('prod-image-url').value.trim();
+        const preview = document.getElementById('image-preview');
+        if (url) {
+          preview.src = url;
+          preview.style.display = 'block';
+        } else {
+          preview.style.display = 'none';
+        }
+      }
+
+      // ── ADD PRODUCT ──
+      async function addProduct() {
+        const name = document.getElementById('prod-name').value.trim();
+        const price = document.getElementById('prod-price').value.trim();
+        const category = document.getElementById('prod-category').value;
+        const description = document.getElementById('prod-description').value.trim();
+        const imageUrl = document.getElementById('prod-image-url').value.trim();
+
+        if (!name || !price || !category || !description || !imageUrl) {
+          alert('Please fill in all fields including the image URL!');
+          return;
+        }
+
+        const { error } = await db.from('products').insert([{
+          name, price, category, description, image_url: imageUrl
+        }]);
+
+        if (error) {
+          alert('Error saving product: ' + error.message);
+          return;
+        }
+
+        // Reset form
+        document.getElementById('prod-name').value = '';
+        document.getElementById('prod-price').value = '';
+        document.getElementById('prod-category').value = '';
+        document.getElementById('prod-description').value = '';
+        document.getElementById('prod-image-url').value = '';
+        document.getElementById('image-preview').style.display = 'none';
+
+        document.getElementById('success-msg').style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('success-msg').style.display = 'none';
+        }, 3000);
+
+        loadAdminProducts();
+      }
+
+      // ── LOAD PRODUCTS ──
+      async function loadAdminProducts() {
+        const { data: products, error } = await db
+          .from('products')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        const list = document.getElementById('admin-products-list');
+
+        if (error || !products || products.length === 0) {
+          list.innerHTML = '<p style="color:#888">No products yet. Add your first product above!</p>';
+          return;
+        }
+
+        list.innerHTML = '';
+        products.forEach(product => {
+          list.innerHTML += `
+            <div class="admin-product">
+              <img src="${product.image_url}" alt="${product.name}" />
+              <div class="admin-product-info">
+                <h3>${product.name}</h3>
+                <p>${product.category}</p>
+                <span>${Number(product.price).toLocaleString()} RWF</span>
+              </div>
+              <button class="delete-btn" onclick="deleteProduct('${product.id}')">🗑 Delete</button>
+            </div>
+          `;
+        });
+      }
+
+      // ── DELETE PRODUCT ──
+      async function deleteProduct(id) {
+        if (!confirm('Are you sure you want to delete this product?')) return;
+
+        const { error } = await db.from('products').delete().eq('id', id);
+        if (error) {
+          alert('Error deleting product: ' + error.message);
+          return;
+        }
+        loadAdminProducts();
+      }
+    </script>
+
+  </body>
+</html>

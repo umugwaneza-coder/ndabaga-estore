@@ -43,21 +43,39 @@ nav ul a:hover {
 
 /* ── HERO ── */
 #hero {
-  background-color: #fff4ec;
+  background-image: url('hero.jpg');
+  background-size: cover;
+  background-position: center;
   text-align: center;
-  padding: 100px 20px;
+  padding: 140px 20px;
+  position: relative;
+}
+
+#hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#hero h1,
+#hero p,
+#hero a {
+  position: relative;
+  z-index: 1;
 }
 
 #hero h1 {
   font-size: 42px;
-  color: #ff6600;
+  color: white;
   margin-bottom: 16px;
 }
 
 #hero p {
   font-size: 18px;
   margin-bottom: 32px;
-  color: #555;
+  color: #f0f0f0;
 }
 
 #hero a {
@@ -111,6 +129,45 @@ nav ul a:hover {
 #services p {
   font-size: 15px;
   color: #666;
+  line-height: 1.6;
+}
+
+/* ── FAQ ── */
+#faq {
+  padding: 80px 40px;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+#faq h2 {
+  font-size: 32px;
+  color: #ff6600;
+  margin-bottom: 40px;
+}
+
+.faq-list {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.faq-item {
+  background-color: #fff4ec;
+  border-left: 4px solid #ff6600;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+.faq-item h3 {
+  font-size: 17px;
+  color: #ff6600;
+  margin-bottom: 8px;
+}
+
+.faq-item p {
+  font-size: 15px;
+  color: #555;
   line-height: 1.6;
 }
 
@@ -184,6 +241,7 @@ footer {
   padding: 20px;
   font-size: 14px;
 }
+
 /* ── MOBILE RESPONSIVE ── */
 @media (max-width: 768px) {
 
@@ -220,6 +278,10 @@ footer {
     max-width: 400px;
   }
 
+  #faq {
+    padding: 60px 20px;
+  }
+
   #contact {
     padding: 60px 20px;
   }
@@ -229,4 +291,29 @@ footer {
     width: 100%;
   }
 
+}
+
+/* ── LOGO ── */
+.logo {
+  height: 60px;
+  width: auto;
+}
+/* ── WHATSAPP BUTTON ── */
+.whatsapp-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #25D366;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 999;
+}
+
+.whatsapp-btn:hover {
+  background-color: #1ebe57;
 }

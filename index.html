@@ -76,12 +76,27 @@
 
       </div>
     </section>
-    <!-- PRODUCTS -->
+  <!-- PRODUCTS -->
 <section id="products">
   <h2>Our Products</h2>
-  <div id="products-grid"></div>
-</section>
 
+  <!-- SEARCH & FILTER -->
+  <div class="products-controls">
+    <input type="text" id="search-input" placeholder="🔍 Search products..." oninput="filterProducts()" />
+    <div class="category-filters">
+      <button class="filter-btn active" onclick="setCategory('All')">All</button>
+      <button class="filter-btn" onclick="setCategory('Electronics')">Electronics</button>
+      <button class="filter-btn" onclick="setCategory('Groceries')">Groceries</button>
+      <button class="filter-btn" onclick="setCategory('Clothing')">Clothing</button>
+      <button class="filter-btn" onclick="setCategory('Household')">Household</button>
+      <button class="filter-btn" onclick="setCategory('Other')">Other</button>
+    </div>
+  </div>
+
+  <div id="products-grid" class="products-grid">
+    <p>Loading products...</p>
+  </div>
+</section>
     <!-- CONTACT -->
     <section id="contact">
       <h2>Contact Us</h2>
@@ -102,6 +117,7 @@
     <footer>
       <p>&copy; 2026 Ndabaga E-Store. All rights reserved.</p>
     </footer>
-<script src="products.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="products.js"></script>
   </body>
 </html>

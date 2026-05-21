@@ -315,19 +315,34 @@
         }
 
         list.innerHTML = '';
-        products.forEach(product => {
-          list.innerHTML += `
-            <div class="admin-product">
-              <img src="${product.image_url}" alt="${product.name}" />
-              <div class="admin-product-info">
-                <h3>${product.name}</h3>
-                <p>${product.category}</p>
-                <span>${Number(product.price).toLocaleString()} RWF</span>
-              </div>
-              <button class="delete-btn" onclick="deleteProduct('${product.id}')">🗑 Delete</button>
-            </div>
-          `;
-        });
+products.forEach(product => {
+  list.innerHTML += `
+    <div class="admin-product" id="product-${product.id}">
+      <img src="${product.image_url}" alt="${product.name}" />
+      <div class="admin-product-info">
+        <h3>${product.name}</h3>
+        <p>${product.category}</p>
+        <span id="price-display-${product.id}">${Number(product.price).toLocaleString()} RWF</span>
+        <div id="edit-form-${product.id}" style="display:none; margin-top:8px;">
+          <input type="number" id="new-price-${product.id}" value="${product.price}" 
+            style="padding:8px; border:1px solid #ff6600; border-radius:8px; width:150px; font-size:14px;" />
+          <button onclick="savePrice('${product.id}')"
+            style="background:#ff6600; color:white; border:none; padding:8px 16px; border-radius:20px; cursor:pointer; font-weight:bold; margin-left:8px;">
+            Save
+          </button>
+          <button onclick="cancelEdit('${product.id}')"
+            style="background:#ccc; color:#333; border:none; padding:8px 16px; border-radius:20px; cursor:pointer; font-weight:bold; margin-left:4px;">
+            Cancel
+          </button>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <button class="edit-btn" onclick="editPrice('${product.id}')">✏️ Edit Price</button>
+        <button class="delete-btn" onclick="deleteProduct('${product.id}')">🗑 Delete</button>
+      </div>
+    </div>
+  `;
+});
       }
 
       // ── DELETE PRODUCT ──
@@ -341,6 +356,38 @@
         }
         loadAdminProducts();
       }
+      // ── EDIT PRICE ──
+function editPrice(id) {
+  document.getElementById(`edit-form-${id}`).style.display = 'block';
+  document.getElementById(`price-display-${id}`).style.display = 'none';
+}
+
+function cancelEdit(id) {
+  document.getElementById(`edit-form-${id}`).style.display = 'none';
+  document.getElementById(`price-display-${id}`).style.display = 'block';
+}
+
+async function savePrice(id) {
+  const newPrice = document.getElementById(`new-price-${id}`).value.trim();
+
+  if (!newPrice || isNaN(newPrice)) {
+    alert('Please enter a valid price!');
+    return;
+  }
+
+  const { error } = await db
+    .from('products')
+    .update({ price: newPrice })
+    .eq('id', id);
+
+  if (error) {
+    alert('Error updating price: ' + error.message);
+    return;
+  }
+
+  alert('✅ Price updated successfully!');
+  loadAdminProducts();
+}
     </script>
 
   </body>
